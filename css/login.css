@@ -1,0 +1,48 @@
+.card {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    backface-visibility: hidden;
+    will-change: transform, opacity;
+}
+
+
+.card {
+    animation: fadeInUp 0.8s ease-out forwards;
+    opacity: 0; /* Empieza invisible */
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px); /* Empieza 30px abajo */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0); /* Termina en su posición original */
+    }
+}
+
+.btn-primary {
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.btn-primary:active {
+    transform: scale(0.95); /* Se hunde un poco al hacer clic */
+}
+
+.btn-primary:hover {
+    transform: scale(1.05); /* Rebota un poquito hacia afuera */
+}
+.form-control {
+    transition: transform 0.2s ease;
+}
+.form-control:hover {
+    transform: scale(1.05);
+}
+.form-control:focus {
+    transform: scale(1.05);
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}

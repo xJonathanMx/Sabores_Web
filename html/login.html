@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Sabores</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/login.css">
+    <link rel="icon" type="image/x-icon" href="../img/R-removebg-preview.png">
+    <script src="../java/login.js" defer></script> 
+</head>
+
+<body>
+<div class="card login-card"> 
+    <div class="row justify-content-center">
+        <div class="col-md-7 login_container">
+            <img class="logo_login" src="../img/R-removebg-preview.png" alt="Logo Sabores" style="max-width: 150px; display: block; margin: 0 auto;">
+    
+            <h5 class="text-center text-muted mb-4">Administración de Comandas</h5>
+            <form method="post" action="login">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Usuario:</label>
+                    <input type="text" class="form-control" id="username" name="username" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Contraseña:</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+                </div>
+            </form>
+            
+            <div class="alert alert-danger mt-3">
+                <strong>Error:</strong> Usuario o contraseña incorrectos.
+            </div>
+            </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
