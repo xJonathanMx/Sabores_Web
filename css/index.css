@@ -1,50 +1,105 @@
+/* Variables y Reset */
 :root {
-    --bg: #ffffff;
-    --panel: #f8f9fa;
     --accent: #0d6efd;
-    --text: #212529;
+    --success: #198754;
+    --danger: #dc3545;
 }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+/* Espacio para el header fijo y h-100 para la row principal */
+.content-wrapper {
+    padding-top: 75px; 
+    height: 100vh;
 }
 
-body {
-    font-family: Arial, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
+/* --- SECCIÓN MESAS CON SCROLL --- */
+/* Forzamos que la sección ocupe el alto de la pantalla restante */
+.mesas-scroll-container {
+    height: calc(100vh - 100px); 
+    overflow-y: auto; /* Activamos scroll vertical solo aquí */
 }
 
-.header {
+/* Ajustamos el grid de mesas para que se vea mejor en el espacio amplio */
+.mesas-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 15px;
+}
+
+.mesa-card {
+    aspect-ratio: 1/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+/* Tus estilos de colores originales */
+.mesa-card.disponible { background-color: #e9f7ef; color: #1e8449; border: 2px solid #d4efdf; }
+.mesa-card.ocupada { background-color: #fdedec; color: #a93226; border: 2px solid #fadbd8; }
+
+.mesa-card:hover {
+    transform: scale(1.05) translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+}
+
+/* --- SECCIÓN COMANDA COMPACTA --- */
+/* Contenedor Flex para alinear formulario y tabla */
+.comanda-panel {
+    display: flex;
+    flex-direction: column;
+}
+
+.comanda-body {
+    flex-grow: 1; /* Ocupa el espacio disponible antes de los botones */
+}
+
+/* Definimos anchos fijos para que no compitan */
+.comanda-form-side {
+    width: 45%; /* Formulario ocupará un 45% */
+}
+
+.comanda-table-side {
+    width: 60%; /* Tabla ocupará un 30% */
+}
+
+/* Estilo personalizado para la tabla compacta */
+.comanda-table-custom {
+    font-size: 0.8rem; /* Letra un poco más pequeña */
+}
+.comanda-table-custom th, .comanda-table-custom td {
+    padding: 6px !important; /* Padding reducido para compactar */
+}
+
+/* Reducimos el resize del Notas */
+textarea.form-control {
+    resize: none;
+    font-size: 0.8rem;
+}
+
+/* --- SIDEBAR Y HAMBURGER (Tus originales) --- */
+.header { position: fixed; top: 0; width: 100%; z-index: 1000; }
+
+.side-menu {
     position: fixed;
-    width: 100%;
     top: 0;
-    left: 0;
-    display: flex;
-    align-items: center;
-    /* Quitamos el space-between para que no se manden a las esquinas */
-    padding: 1rem 1.2rem;
-    background: rgba(255, 255, 255, 0.95);
-    z-index: 20;
-    border-bottom: 1px solid rgba(13, 110, 253, 0.15);
+    left: -280px;
+    width: 280px;
+    height: 100vh;
+    background: white;
+    padding: 90px 20px;
+    transition: 0.4s ease;
+    z-index: 999;
 }
-.header-left {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem; /* Espacio entre el hamburguer y el texto Sabores */
-}
-.logo {
-    font-weight: 700;
-    letter-spacing: 1px;
-    color: var(--accent);
-}
+
+.side-menu.open { left: 0; }
 
 .hamburger {
-    width: 35px;
-    height: 28px;
+    width: 28px;
+    height: 18px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -53,113 +108,199 @@ body {
 
 .hamburger span {
     display: block;
-    height: 4px;
-    border-radius: 999px;
+    height: 3px;
+    width: 100%;
     background: var(--accent);
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    border-radius: 3px;
+    transition: 0.3s;
 }
 
-.side-menu {
-    position: fixed;
-    top: 30px;
-    left: -260px;
-    width: 260px;
-    height: 100vh;
-    background: var(--panel);
-    padding: 3rem 1.2rem;
-    box-shadow: 6px 0 24px rgba(13, 110, 253, 0.15);
-    transition: left 0.35s ease;
-    z-index: 15;
-}
-
-.side-menu.open {
-    left: 0;
-}
-
-.side-menu nav {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.side-menu a {
-    color: var(--text);
-    text-decoration: none;
-    font-size: 1.05rem;
-    padding: 0.75rem 0.8rem;
-    border-radius: 10px;
-    transition: background 0.25s ease;
-}
-
-.side-menu a:hover {
-    background: rgba(13, 110, 253, 0.12);
-}
-
-.side-menu h2 {
-    margin-bottom: 2rem;
-    font-size: 1.2rem;
-    letter-spacing: 0.05em;
-    color: var(--accent);
-}
-
-.content {
-    padding: 6rem 1.5rem 2rem;
-    max-width: 960px;
-    margin: 0 auto;
-}
-
-section {
-    margin-bottom: 4rem;
-    padding: 2rem;
-    background: rgba(13, 110, 253, 0.05);
-    border: 1px solid rgba(13, 110, 253, 0.15);
-    border-radius: 14px;
-}
-
-section h1,
-section h2 {
-    margin-bottom: 1rem;
-    color: var(--accent);
-}
-
-section p {
-    line-height: 1.7;
-    color: #495057;
-}
-
+/* Overlay */
 .overlay {
     position: fixed;
-    inset: 0;
-    background: rgba(13, 110, 253, 0.15);
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease;
-    z-index: 10;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.3);
+    display: none;
+    z-index: 998;
+}
+.overlay.active { display: block; }
+/* --- ANIMACIONES BASE --- */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.overlay.active {
-    opacity: 1;
-    visibility: visible;
+/* Aplicar animación de entrada a las tarjetas principales */
+.mesas-section .card, 
+.productos-section .card {
+    animation: fadeInUp 0.3s ease-out forwards;
+    opacity: 0; /* Empieza invisible */
+    backface-visibility: hidden;
+    will-change: transform, opacity;
 }
 
+/* Retraso para la segunda columna (efecto cascada) */
+.productos-section .card {
+    animation-delay: 0.2s;
+}
+
+/* --- INTERACCIONES DE BOTONES (Efecto de hundido y rebote) --- */
+.btn, .btn-primary, .btn-success, .btn-outline-danger {
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+.btn:active {
+    transform: scale(0.95);
+}
+
+/* --- INTERACCIONES DE INPUTS Y SELECTS --- */
+.form-control, .form-select {
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.form-control:hover, .form-select:hover {
+    transform: scale(0.95); /* Escala ligeramente menor para que no sea agresivo */
+}
+
+.form-control:focus, .form-select:focus {
+    transform: scale(1.02);
+    box-shadow: 0 0 8px rgba(13, 110, 253, 0.25) !important;
+}
+
+/* --- INTERACCIONES DE LAS MESAS --- */
+.mesa-card {
+    /* Mantenemos tu transition original pero aseguramos el cubic-bezier */
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.mesa-card:active {
+    transform: scale(0.9);
+}
+
+/* --- AJUSTES DE ESTRUCTURA (Manteniendo lo anterior) --- */
+:root {
+    --accent: #0d6efd;
+    --success: #198754;
+    --danger: #dc3545;
+}
+
+.content-wrapper {
+    padding-top: 75px; 
+    height: 100vh;
+}
+
+.mesas-scroll-container {
+    height: calc(100vh - 100px); 
+    overflow-y: auto;
+}
+
+.mesas-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 15px;
+}
+
+.comanda-panel { display: flex; flex-direction: column; }
+.comanda-body { flex-grow: 1; display: flex; gap: 15px; }
+.comanda-form-side { width: 45%; }
+.comanda-table-side { width: 55%; }
+
+#input-cantidad::-webkit-inner-spin-button,
+#input-cantidad::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.quantity-selector .btn {
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+}
+
+/* Aplicar el efecto de escala también a estos botones */
+.quantity-selector .btn:active {
+    transform: scale(0.9);
+}
+.zona-mesas {
+    transition: all 0.4s ease;
+    transform-origin: top;
+}
+
+.zona-hidden {
+    display: none !important;
+}
+
+.filter-btn {
+    border-radius: 20px;
+    padding: 5px 15px;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.filter-btn:hover {
+    transform: translateY(-2px);
+}
+/* Animación de las barras para formar la X */
 .hamburger.active span:nth-child(1) {
-    transform: translateY(12px) rotate(45deg);
+    transform: translateY(7.5px) rotate(45deg);
 }
 
 .hamburger.active span:nth-child(2) {
-    opacity: 0;
+    opacity: 0; /* Desaparece la barra del medio */
+    transform: translateX(-20px);
 }
 
 .hamburger.active span:nth-child(3) {
-    transform: translateY(-12px) rotate(-45deg);
+    transform: translateY(-7.5px) rotate(-45deg);
 }
 
-.side-menu a{
-    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+/* Asegurar que el side-menu se deslice suave */
+.side-menu {
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
-a:hover {
+/* --- INTERACCIONES TÁCTILES (Efecto de hundido y rebote) --- */
+.btn, .filter-btn, .quantity-selector .btn {
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    outline: none !important;
+}
+
+/* Al pasar el mouse: Crece un poquito */
+.btn:hover, .filter-btn:hover {
     transform: scale(1.05);
 }
-a:active {
-    transform: scale(0.95); /* Se hunde un poco al hacer clic */
+
+/* Al hacer CLIC: Se hunde (Efecto "Push") */
+.btn:active, .filter-btn:active, .quantity-selector .btn:active {
+    transform: scale(0.92) !important;
+}
+
+/* --- INTERACCIONES EN INPUTS Y SELECTS --- */
+.form-control, .form-select {
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+/* Efecto sutil al pasar el mouse sobre los campos */
+.form-control:hover, .form-select:hover {
+    transform: scale(1.01);
+}
+
+/* Resalte al escribir */
+.form-control:focus, .form-select:focus {
+    transform: scale(1.02);
+    box-shadow: 0 0 8px rgba(13, 110, 253, 0.25) !important;
 }
