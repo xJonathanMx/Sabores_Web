@@ -1,28 +1,49 @@
+// ======================
+// VARIABLES GLOBALES
+// ======================
 let selectedPayment = 'efectivo';
 let payments = [];
 
-// Formato CLP (Chile)
+
+// ======================
+// FORMATO CLP
+// ======================
 function formatCLP(value) {
     return Number(value).toLocaleString('es-CL');
 }
 
-// Seleccionar método de pago
-function selectPayment(element, method) {
-    document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('active'));
-    element.classList.add('active');
-    selectedPayment = method;
-}
+
+// ======================
+// INICIALIZACIÓN
+// ======================
 document.addEventListener("DOMContentLoaded", () => {
     const subtotal = parseInt(document.getElementById('subtotal').textContent) || 0;
     const suggestedTip = Math.round(subtotal * 0.10);
 
     document.getElementById('tipAmount').value = suggestedTip;
 
+    // Detectar cambios en propina
     document.getElementById('tipAmount').addEventListener('input', updateTotals);
 
     updateTotals();
 });
-// Agregar pago
+
+
+// ======================
+// MÉTODO DE PAGO
+// ======================
+function selectPayment(element, method) {
+    document.querySelectorAll('.payment-method')
+        .forEach(el => el.classList.remove('active'));
+
+    element.classList.add('active');
+    selectedPayment = method;
+}
+
+
+// ======================
+// PAGOS
+// ======================
 function addPayment() {
     const amount = parseInt(document.getElementById('paymentAmount').value);
 
@@ -39,10 +60,10 @@ function addPayment() {
 
     updatePaymentList();
     checkBalance();
+
     document.getElementById('paymentAmount').value = '';
 }
 
-// Actualizar lista de pagos
 function updatePaymentList() {
     const listContainer = document.getElementById('paymentList');
 
@@ -83,17 +104,27 @@ function updatePaymentList() {
     document.getElementById('totalPaid').textContent = formatCLP(totalPaid);
 }
 
-// Calcular totales (IVA + propina)
+function removePayment(index) {
+    payments.splice(index, 1);
+    updatePaymentList();
+    checkBalance();
+}
+
+
+// ======================
+// CÁLCULOS
+// ======================
 function updateTotals() {
     const subtotal = parseInt(document.getElementById('subtotal').textContent.replace(/\./g, '')) || 0;
     const tax = Math.round(subtotal * 0.19);
 
+    // 🔥 IMPORTANTE: la propina NO se suma al total
     const total = subtotal + tax;
 
     document.getElementById('tax').textContent = formatCLP(tax);
     document.getElementById('totalAmount').textContent = formatCLP(total);
 
-    // actualizar sugerencia de propina (10%)
+    // Propina sugerida (solo visual)
     const suggestedTip = Math.round(subtotal * 0.10);
     document.getElementById('tipAmount').placeholder = formatCLP(suggestedTip);
 
@@ -102,6 +133,7 @@ function updateTotals() {
 
     checkBalance();
 }
+
 function setTip(percentage) {
     const subtotal = parseInt(document.getElementById('subtotal').textContent.replace(/\./g, '')) || 0;
     const tip = Math.round(subtotal * (percentage / 100));
@@ -109,7 +141,11 @@ function setTip(percentage) {
     document.getElementById('tipAmount').value = tip;
     updateTotals();
 }
-// Revisar saldo restante
+
+
+// ======================
+// BALANCE
+// ======================
 function checkBalance() {
     const total = parseInt(document.getElementById('totalAmount').textContent.replace(/\./g, '')) || 0;
     const totalPaid = payments.reduce((sum, p) => sum + p.amount, 0);
@@ -129,23 +165,10 @@ function checkBalance() {
     }
 }
 
-// Eliminar pago
-function removePayment(index) {
-    payments.splice(index, 1);
-    updatePaymentList();
-    checkBalance();
-}
 
-// Botones de propina (%)
-function setTip(percentage) {
-    const subtotal = parseInt(document.getElementById('subtotal').textContent.replace(/\./g, '')) || 0;
-    const tip = Math.round(subtotal * (percentage / 100));
-
-    document.getElementById('tipAmount').value = tip;
-    updateTotals();
-}
-
-// Confirmar pago y liberar mesa
+// ======================
+// FINALIZAR
+// ======================
 function liberarMesa() {
     const tip = parseInt(document.getElementById('tipAmount').value) || 0;
     const totalPaid = payments.reduce((sum, p) => sum + p.amount, 0);
@@ -155,13 +178,15 @@ function liberarMesa() {
 Resumen:
 Total pagado: $${formatCLP(totalPaid)}
 Propina: $${formatCLP(tip)}
-
 `);
 
     limpiar();
 }
 
-// Limpiar todo
+
+// ======================
+// LIMPIAR
+// ======================
 function limpiar() {
     payments = [];
 
@@ -171,11 +196,3 @@ function limpiar() {
     updatePaymentList();
     updateTotals();
 }
-
-// Detectar cambios manuales en propina
-document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById('tipAmount').addEventListener('input', updateTotals);
-
-    // Inicializar valores al cargar
-    updateTotals();
-});
