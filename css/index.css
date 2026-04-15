@@ -1,30 +1,49 @@
-/* Variables y Reset */
+/* --- VARIABLES Y RESET --- */
 :root {
     --accent: #0d6efd;
     --success: #198754;
     --danger: #dc3545;
 }
 
-/* Espacio para el header fijo y h-100 para la row principal */
+body, html {
+    height: 100%;
+    margin: 0;
+    overflow: hidden; /* Evita scroll doble */
+    background-color: #f8f9fa;
+}
+
+/* --- ESTRUCTURA PRINCIPAL --- */
+.header { 
+    position: fixed; 
+    top: 0; 
+    width: 100%; 
+    height: 60px; 
+    z-index: 1000; 
+    background: white;
+}
+
 .content-wrapper {
     padding-top: 75px; 
     height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-/* --- SECCIÓN MESAS CON SCROLL --- */
-/* Forzamos que la sección ocupe el alto de la pantalla restante */
+/* --- SECCIÓN MESAS CON SCROLL SEGURO --- */
 .mesas-scroll-container {
     height: calc(100vh - 100px); 
-    overflow-y: auto; /* Activamos scroll vertical solo aquí */
+    overflow-y: auto;
+    
 }
 
-/* Ajustamos el grid de mesas para que se vea mejor en el espacio amplio */
 .mesas-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(130px, 0.1fr));
     gap: 15px;
+    width: 100%;
 }
 
+/* --- INTERACCIONES DE LAS MESAS (Tus efectos originales) --- */
 .mesa-card {
     aspect-ratio: 1/1;
     display: flex;
@@ -33,274 +52,111 @@
     border-radius: 12px;
     font-weight: bold;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
-/* Tus estilos de colores originales */
 .mesa-card.disponible { background-color: #e9f7ef; color: #1e8449; border: 2px solid #d4efdf; }
 .mesa-card.ocupada { background-color: #fdedec; color: #a93226; border: 2px solid #fadbd8; }
 
 .mesa-card:hover {
     transform: scale(1.05) translateY(-3px);
-    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
-}
-
-/* --- SECCIÓN COMANDA COMPACTA --- */
-/* Contenedor Flex para alinear formulario y tabla */
-.comanda-panel {
-    display: flex;
-    flex-direction: column;
-}
-
-.comanda-body {
-    flex-grow: 1; /* Ocupa el espacio disponible antes de los botones */
-}
-
-/* Definimos anchos fijos para que no compitan */
-.comanda-form-side {
-    width: 45%; /* Formulario ocupará un 45% */
-}
-
-.comanda-table-side {
-    width: 60%; /* Tabla ocupará un 30% */
-}
-
-/* Estilo personalizado para la tabla compacta */
-.comanda-table-custom {
-    font-size: 0.8rem; /* Letra un poco más pequeña */
-}
-.comanda-table-custom th, .comanda-table-custom td {
-    padding: 6px !important; /* Padding reducido para compactar */
-}
-
-/* Reducimos el resize del Notas */
-textarea.form-control {
-    resize: none;
-    font-size: 0.8rem;
-}
-
-/* --- SIDEBAR Y HAMBURGER (Tus originales) --- */
-.header { position: fixed; top: 0; width: 100%; z-index: 1000; }
-
-.side-menu {
-    position: fixed;
-    top: 0;
-    left: -280px;
-    width: 280px;
-    height: 100vh;
-    background: white;
-    padding: 90px 20px;
-    transition: 0.4s ease;
-    z-index: 999;
-}
-
-.side-menu.open { left: 0; }
-
-.hamburger {
-    width: 28px;
-    height: 18px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    cursor: pointer;
-}
-
-.hamburger span {
-    display: block;
-    height: 3px;
-    width: 100%;
-    background: var(--accent);
-    border-radius: 3px;
-    transition: 0.3s;
-}
-
-/* Overlay */
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.3);
-    display: none;
-    z-index: 998;
-}
-.overlay.active { display: block; }
-/* --- ANIMACIONES BASE --- */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(15px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Aplicar animación de entrada a las tarjetas principales */
-.mesas-section .card, 
-.productos-section .card {
-    animation: fadeInUp 0.3s ease-out forwards;
-    opacity: 0; /* Empieza invisible */
-    backface-visibility: hidden;
-    will-change: transform, opacity;
-}
-
-/* Retraso para la segunda columna (efecto cascada) */
-.productos-section .card {
-    animation-delay: 0.2s;
-}
-
-/* --- INTERACCIONES DE BOTONES (Efecto de hundido y rebote) --- */
-.btn, .btn-primary, .btn-success, .btn-outline-danger {
-    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
-}
-
-.btn:hover {
-    transform: scale(1.05);
-}
-
-.btn:active {
-    transform: scale(0.95);
-}
-
-/* --- INTERACCIONES DE INPUTS Y SELECTS --- */
-.form-control, .form-select {
-    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
-}
-
-.form-control:hover, .form-select:hover {
-    transform: scale(0.95); /* Escala ligeramente menor para que no sea agresivo */
-}
-
-.form-control:focus, .form-select:focus {
-    transform: scale(1.02);
-    box-shadow: 0 0 8px rgba(13, 110, 253, 0.25) !important;
-}
-
-/* --- INTERACCIONES DE LAS MESAS --- */
-.mesa-card {
-    /* Mantenemos tu transition original pero aseguramos el cubic-bezier */
-    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
 }
 
 .mesa-card:active {
-    transform: scale(0.9);
+    transform: scale(0.9) !important;
 }
 
-/* --- AJUSTES DE ESTRUCTURA (Manteniendo lo anterior) --- */
-:root {
-    --accent: #0d6efd;
-    --success: #198754;
-    --danger: #dc3545;
-}
-
-.content-wrapper {
-    padding-top: 75px; 
-    height: 100vh;
-}
-
-.mesas-scroll-container {
-    height: calc(100vh - 100px); 
-    overflow-y: auto;
-}
-
-.mesas-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-    gap: 15px;
-}
-
-.comanda-panel { display: flex; flex-direction: column; }
-.comanda-body { flex-grow: 1; display: flex; gap: 15px; }
-.comanda-form-side { width: 45%; }
-.comanda-table-side { width: 55%; }
-
-#input-cantidad::-webkit-inner-spin-button,
-#input-cantidad::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-.quantity-selector .btn {
-    width: 40px;
+.mesa-info {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-size: 1.1rem;
+    text-align: center;
+    line-height: 1.2;
+    transition: transform 0.2s ease;
 }
 
-/* Aplicar el efecto de escala también a estos botones */
-.quantity-selector .btn:active {
-    transform: scale(0.9);
-}
-.zona-mesas {
-    transition: all 0.4s ease;
-    transform-origin: top;
+.mesa-card:hover .mesa-info { transform: scale(1.02); }
+.mesa-number { font-size: 1.2rem; display: block; margin-bottom: 2px; }
+.mesa-id { font-size: 0.75rem; opacity: 0.8; font-weight: normal; }
+.mesa-garzon { font-size: 0.85rem; margin-top: 5px; font-weight: 500; }
+
+/* --- SECCIÓN COMANDA COMPACTA --- */
+.comanda-panel { display: flex; flex-direction: column; height: 100%; }
+.comanda-body { flex-grow: 1; display: flex; gap: 15px; overflow: hidden; }
+.comanda-form-side { width: 45%; }
+.comanda-table-side { width: 55%; overflow-y: auto; }
+
+/* --- EFECTOS DE BOTONES Y FILTROS (Efecto Push/Hundido) --- */
+.btn, .filter-btn, .quantity-selector .btn {
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    outline: none !important;
 }
 
-.zona-hidden {
-    display: none !important;
+.btn:hover, .filter-btn:hover { transform: scale(1.05); }
+.btn:active, .filter-btn:active, .quantity-selector .btn:active {
+    transform: scale(0.92) !important;
 }
 
 .filter-btn {
     border-radius: 20px;
     padding: 5px 15px;
     font-weight: 600;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.filter-btn:hover {
-    transform: translateY(-2px);
-}
-/* Animación de las barras para formar la X */
-.hamburger.active span:nth-child(1) {
-    transform: translateY(7.5px) rotate(45deg);
-}
-
-.hamburger.active span:nth-child(2) {
-    opacity: 0; /* Desaparece la barra del medio */
-    transform: translateX(-20px);
-}
-
-.hamburger.active span:nth-child(3) {
-    transform: translateY(-7.5px) rotate(-45deg);
-}
-
-/* Asegurar que el side-menu se deslice suave */
-.side-menu {
-    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-/* --- INTERACCIONES TÁCTILES (Efecto de hundido y rebote) --- */
-.btn, .filter-btn, .quantity-selector .btn {
-    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
-    outline: none !important;
-}
-
-/* Al pasar el mouse: Crece un poquito */
-.btn:hover, .filter-btn:hover {
-    transform: scale(1.05);
-}
-
-/* Al hacer CLIC: Se hunde (Efecto "Push") */
-.btn:active, .filter-btn:active, .quantity-selector .btn:active {
-    transform: scale(0.92) !important;
-}
-
-/* --- INTERACCIONES EN INPUTS Y SELECTS --- */
+/* --- INTERACCIONES DE INPUTS --- */
 .form-control, .form-select {
     transition: transform 0.2s ease, box-shadow 0.2s ease !important;
 }
-
-/* Efecto sutil al pasar el mouse sobre los campos */
-.form-control:hover, .form-select:hover {
-    transform: scale(1.01);
-}
-
-/* Resalte al escribir */
+.form-control:hover, .form-select:hover { transform: scale(1.01); }
 .form-control:focus, .form-select:focus {
     transform: scale(1.02);
     box-shadow: 0 0 8px rgba(13, 110, 253, 0.25) !important;
 }
+
+/* --- HAMBURGER ANIMADO (Forma la X) --- */
+.hamburger {
+    width: 28px; height: 18px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    cursor: pointer; z-index: 1100;
+}
+
+.hamburger span {
+    display: block; height: 3px; width: 100%;
+    background: var(--accent); border-radius: 3px;
+    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hamburger.active span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+.hamburger.active span:nth-child(2) { opacity: 0; transform: translateX(-20px); }
+.hamburger.active span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+/* --- SIDE MENU Y OVERLAY --- */
+.side-menu {
+    position: fixed; top: 0; left: -280px; width: 280px; height: 100vh;
+    background: white; padding: 90px 20px;
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 999;
+}
+.side-menu.open { left: 0; }
+.overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.3); display: none; z-index: 998;
+}
+.overlay.active { display: block; }
+
+/* --- ANIMACIONES DE ENTRADA --- */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.main-card-anim {
+    animation: fadeInUp 0.3s ease-out forwards;
+}
+
+/* Scrollbar estética */
+.mesas-scroll-container::-webkit-scrollbar { width: 6px; }
+.mesas-scroll-container::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }

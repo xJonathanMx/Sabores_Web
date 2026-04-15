@@ -1,66 +1,73 @@
 document.addEventListener('DOMContentLoaded', () => {
+    
+    // 1. LÓGICA DEL MENÚ LATERAL (HAMBURGUESA)
     const hamburger = document.getElementById('hamburger');
-        const sideMenu = document.getElementById('sideMenu');
-        const overlay = document.getElementById('overlay');
+    const sideMenu = document.getElementById('sideMenu');
+    const overlay = document.getElementById('overlay');
 
-        const toggleMenu = () => {
-            hamburger.classList.toggle('active');
-            sideMenu.classList.toggle('open');
-            overlay.classList.toggle('active');
-        };
+    const toggleMenu = () => {
+        hamburger.classList.toggle('active');
+        sideMenu.classList.toggle('open');
+        overlay.classList.toggle('active');
+    };
 
+    if (hamburger && overlay) {
         hamburger.addEventListener('click', toggleMenu);
         overlay.addEventListener('click', toggleMenu);
+    }
 
-        document.querySelectorAll('.side-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                hamburger.classList.remove('active');
-                sideMenu.classList.remove('open');
-                overlay.classList.remove('active');
-            });
+    // Cerrar menú al hacer clic en un enlace
+    document.querySelectorAll('.side-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            sideMenu.classList.remove('open');
+            overlay.classList.remove('active');
         });
-        const animatables = document.querySelectorAll('section, .mesa-card');
+    });
 
-    animatables.forEach((el, index) => {
+    // 2. ANIMACIÓN "DESLIZAR Y ENFOCAR" (Todo a la vez)
+    const animatables = document.querySelectorAll('section, .mesa-card');
+    animatables.forEach((el) => {
+        // Estado inicial: Abajo, invisible y borroso
         el.style.opacity = "0";
-        el.style.transform = "scale(0.8)";
-        el.style.transition = "all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)";
+        el.style.filter = "blur(10px)";
+        el.style.transform = "translateY(20px)"; 
+        el.style.transition = "all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
 
+        // Se ejecuta casi al instante (50ms)
         setTimeout(() => {
             el.style.opacity = "1";
-            el.style.transform = "scale(1)";
-        }, 100 * index); // Efecto cascada
+            el.style.filter = "blur(0px)";
+            el.style.transform = "translateY(0)";
+        }, 50);
     });
-});
-// Dentro de tu DOMContentLoaded
-const platosPorCategoria = {
-    mariscos: ["Paila Marina", "Machas a la Parmesana", "Ceviche Reineta"],
-    carnes: ["Lomo a lo Pobre", "Parrillada", "Costillar Cerdo"],
-    bebidas: ["Pisco Sour", "Bebida 500ml", "Jugo Natural"]
-};
 
-const selectCategoria = document.getElementById('categoria');
-const selectPlatos = document.getElementById('platos');
+    // 3. LÓGICA DE CATEGORÍAS Y PLATOS
+    const platosPorCategoria = {
+        mariscos: ["Paila Marina", "Machas a la Parmesana", "Ceviche Reineta"],
+        carnes: ["Lomo a lo Pobre", "Parrillada", "Costillar Cerdo"],
+        bebidas: ["Pisco Sour", "Bebida 500ml", "Jugo Natural"]
+    };
 
-if(selectCategoria) {
-    selectCategoria.addEventListener('change', (e) => {
-        const categoria = e.target.value;
-        const platos = platosPorCategoria[categoria];
-        
-        // Limpiar platos actuales
-        selectPlatos.innerHTML = '';
-        
-        // Agregar nuevos platos
-        platos.forEach(plato => {
-            const option = document.createElement('option');
-            option.textContent = plato;
-            selectPlatos.appendChild(option);
+    const selectCategoria = document.getElementById('categoria');
+    const selectPlatos = document.getElementById('platos');
+
+    if(selectCategoria && selectPlatos) {
+        selectCategoria.addEventListener('change', (e) => {
+            const categoria = e.target.value;
+            const platos = platosPorCategoria[categoria];
+            
+            selectPlatos.innerHTML = ''; // Limpiar platos actuales
+            
+            platos.forEach(plato => {
+                const option = document.createElement('option');
+                option.textContent = plato;
+                selectPlatos.appendChild(option);
+            });
         });
-    });
-}
-document.addEventListener("DOMContentLoaded", function() {
-    // ... tu lógica de hamburguesa y animaciones ...
+    }
 
+    // 4. LÓGICA DEL SELECTOR DE CANTIDAD (+ / -)
     const btnPlus = document.getElementById('btn-plus');
     const btnMinus = document.getElementById('btn-minus');
     const inputCantidad = document.getElementById('input-cantidad');
