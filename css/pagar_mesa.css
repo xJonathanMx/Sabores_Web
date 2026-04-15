@@ -1,0 +1,151 @@
+:root {
+    --accent: #0d6efd;
+    --success: #198754;
+    --danger: #dc3545;
+}
+
+body {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.container-main {
+    max-width: 700px;
+    margin: 0 auto;
+    width: 100%;
+}
+.header-section .btn {
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    padding: 0;
+}
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+.header-section {
+    background: var(--accent);
+    color: white;
+    padding: 15px;
+    border-radius: 12px 12px 0 0;
+}
+
+.header-section h4 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.info-box {
+    background-color: #f8f9fa;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    height: 100%;
+}
+
+.amount-section { border-left: 4px solid var(--success); }
+.waiter-section { border-left: 4px solid var(--accent); }
+
+.payment-methods {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+.payment-method:active {
+    transform: scale(0.95);
+}
+.payment-method {
+    flex: 1;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+}
+
+.payment-method:hover {
+    background-color: #f8f9ff;
+    border-color: #667eea;
+}
+
+.payment-method.active {
+    background-color: #e8ecff;
+    border-color: #667eea;
+    font-weight: bold;
+    color: #667eea;
+}
+
+.payment-list {
+    max-height: 150px;
+    overflow-y: auto;
+    font-size: 0.85rem;
+}
+
+.payment-item {
+    background-color: #f8f9fa;
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.balance-box {
+    background-color: #fff3e0;
+    padding: 10px 15px;
+    border-radius: 6px;
+    font-size: 0.95rem;
+}
+
+.balance-box.success {
+    background-color: #c8e6c9;
+    border-left: 4px solid #4caf50;
+}
+
+.balance-box.error {
+    background-color: #ffcdd2;
+    border-left: 4px solid #f44336;
+}
+
+.btn-custom {
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.btn-primary-custom {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    color: white;
+}
+
+.btn-primary-custom:hover {
+    color: white;
+    opacity: 0.9;
+}
+
+.liberar-btn {
+    background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+    border: none;
+    color: white;
+}
+
+.liberar-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.section-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #444;
+}
