@@ -87,7 +87,25 @@ body, html {
     background: rgba(0,0,0,0.3); display: none; z-index: 998;
 }
 .overlay.active { display: block; }
+.submenu-accordion {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, opacity 0.3s ease;
+    opacity: 0;
+}
 
+.submenu-accordion.open {
+    max-height: 500px;
+    opacity: 1;
+}
+
+.arrow {
+    transition: transform 0.3s ease;
+}
+
+.arrow.rotate {
+    transform: rotate(90deg);
+}
 /* --- ANIMACIONES DE ENTRADA --- */
 @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(15px); }

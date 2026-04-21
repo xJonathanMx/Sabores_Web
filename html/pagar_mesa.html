@@ -14,6 +14,42 @@
 </head>
 
 <body>
+    <header class="header bg-white shadow-sm fixed-top">
+        <div class="header-left container-fluid d-flex align-items-center py-2">
+            <div class="hamburger me-3" id="hamburger">
+                <span></span><span></span><span></span>
+            </div>
+            <div class="logo h4 mb-0 text-primary fw-bold">Sabores de Cobquecura</div>
+        </div>
+    </header>
+
+    <aside class="side-menu shadow" id="sideMenu">
+        <h2 class="h5 mb-4 text-primary fw-bold px-3 pt-3">Secciones</h2>
+        <nav class="nav flex-column px-2">
+            <a class="nav-link py-2 rounded mb-1" href="Index.html">🏠 Inicio</a>
+            <a class="nav-link py-2 rounded mb-1" href="venta_Rapida.html">👨‍🍳 Venta Rápida</a>
+            
+            <a class="nav-link py-2 rounded mb-2 fw-bold bg-primary text-white" href="cierre_caja.html">
+                <i class="bi bi-box-arrow-right me-2"></i>Cierre de Caja
+            </a>
+            
+            <hr class="text-muted my-1">
+
+            <div class="nav-item mt-2">
+                <button class="nav-link py-2 rounded mb-1 w-100 text-start d-flex justify-content-between align-items-center text-dark" id="btn-reportes">
+                    <span>📊 Reportes</span>
+                    <span class="arrow">▸</span>
+                </button>
+                <div class="submenu-accordion" id="submenu-reportes">
+                    <a class="nav-link py-1" href="total_ventas.html">Total de ventas</a>
+                    <a class="nav-link py-1" href="venta_producto.html">Venta por producto</a>
+                    <a class="nav-link py-1" href="venta_usuario.html">Venta por usuario</a>
+                    <a class="nav-link py-1" href="medio_pago.html">Medio de pago</a>
+                    <a class="nav-link py-1" href="historial_pedidos.html">Historial pedidos</a>
+                </div>
+            </div>
+        </nav>
+    </aside>
     <div id="menu-container"></div>
     <div class="menu-spacing"></div>
     <div class="container-main">

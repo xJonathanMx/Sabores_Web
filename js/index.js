@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (parseInt(inputCantidad.value) > 1) inputCantidad.value = parseInt(inputCantidad.value) - 1;
     });
 
-    // Menú Lateral
+    // Menú Lateral completo//
     const hamburger = document.getElementById('hamburger');
     const sideMenu = document.getElementById('sideMenu');
     const overlay = document.getElementById('overlay');
@@ -129,6 +129,34 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     hamburger?.addEventListener('click', toggleMenu);
     overlay?.addEventListener('click', toggleMenu);
+     // =========================
+    // ACORDEÓN PRO (solo uno abierto)
+    // =========================
+    const btnReportes = document.getElementById('btn-reportes');
+    const submenuReportes = document.getElementById('submenu-reportes');
+    const arrow = btnReportes.querySelector('.arrow');
+
+    btnReportes.addEventListener('click', () => {
+
+        const isOpen = submenuReportes.classList.contains('open');
+
+        // Cerrar todos
+        document.querySelectorAll('.submenu-accordion').forEach(menu => {
+            menu.classList.remove('open');
+        });
+
+        document.querySelectorAll('.arrow').forEach(a => {
+            a.classList.remove('rotate');
+        });
+
+        // Abrir solo si estaba cerrado
+        if (!isOpen) {
+            submenuReportes.classList.add('open');
+            arrow.classList.add('rotate');
+        }
+    });
+// Menú Lateral completo//
+
 });
 
 // --- 5. FUNCIÓN DE IMPRESIÓN DE PRE-CUENTA ---

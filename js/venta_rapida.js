@@ -24,7 +24,33 @@ document.addEventListener('DOMContentLoaded', () => {
     
     hamburger?.addEventListener('click', toggleMenu);
     overlay?.addEventListener('click', toggleMenu);
+     // =========================
+    // ACORDEÓN PRO (solo uno abierto)
+    // =========================
+    const btnReportes = document.getElementById('btn-reportes');
+    const submenuReportes = document.getElementById('submenu-reportes');
+    const arrow = btnReportes.querySelector('.arrow');
 
+    btnReportes.addEventListener('click', () => {
+
+        const isOpen = submenuReportes.classList.contains('open');
+
+        // Cerrar todos
+        document.querySelectorAll('.submenu-accordion').forEach(menu => {
+            menu.classList.remove('open');
+        });
+
+        document.querySelectorAll('.arrow').forEach(a => {
+            a.classList.remove('rotate');
+        });
+
+        // Abrir solo si estaba cerrado
+        if (!isOpen) {
+            submenuReportes.classList.add('open');
+            arrow.classList.add('rotate');
+        }
+        // Menú Lateral completo//
+    });
     // 2. Configuración de los botones de Cantidad (+ y -)
     const inputCantidad = document.getElementById('input-cantidad');
     document.getElementById('btn-plus')?.addEventListener('click', () => {

@@ -1,0 +1,82 @@
+:root {
+    --primary-color: #0d6efd;
+    --danger-color: #dc3545;
+}
+
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: hidden;
+}
+
+/* --- Layout Base --- */
+.header { position: fixed; top: 0; width: 100%; height: 60px; z-index: 1000; background: white; }
+.content-wrapper { padding-top: 60px; }
+.hamburger { width: 28px; height: 18px; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; z-index: 1100; }
+.hamburger span { display: block; height: 3px; width: 100%; background: var(--primary-color); border-radius: 3px; transition: 0.3s; }
+.hamburger.active span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+.hamburger.active span:nth-child(2) { opacity: 0; transform: translateX(-20px); }
+.hamburger.active span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+.side-menu { position: fixed; top: 0; left: -280px; width: 280px; height: 100vh; background: white; padding: 90px 20px; transition: 0.3s; z-index: 999; overflow-y: auto; }
+.side-menu.open { left: 0; }
+.overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); display: none; z-index: 998; }
+.overlay.active { display: block; }
+.submenu-accordion { max-height: 0; overflow: hidden; transition: 0.35s ease; opacity: 0; }
+.submenu-accordion.open { max-height: 500px; opacity: 1; }
+.arrow { transition: transform 0.3s ease; }
+.arrow.rotate { transform: rotate(90deg); }
+
+/* --- Animaciones --- */
+.fade-in { animation: fadeIn 0.5s ease-out; }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Estilos del Acordeón Custom --- */
+.accordion-item {
+    border: none;
+    background-color: white;
+    border-radius: 12px !important;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.04);
+    overflow: hidden;
+    transition: box-shadow 0.3s;
+}
+
+.accordion-item:hover {
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.accordion-button {
+    background-color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 12px !important;
+    box-shadow: none !important;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: #f8faff;
+    color: var(--primary-color);
+}
+
+/* Identificadores visuales de estado */
+.border-anulado { border-left: 5px solid var(--danger-color) !important; }
+.border-completado { border-left: 5px solid #198754 !important; }
+
+.badge-tipo {
+    font-size: 0.75rem;
+    padding: 5px 10px;
+    background-color: #e9ecef;
+    color: #495057;
+    border-radius: 20px;
+}
+
+.detalle-recibo {
+    background-color: #fafafa;
+    border-radius: 8px;
+    padding: 15px;
+    border: 1px dashed #dee2e6;
+}
+
+.date-custom { animation: fadeIn 0.3s ease-out; }

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medio de Pago - Sabores de Cobquecura</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <link rel="stylesheet" href="../css/medio_pago.css">
+</head>
+<body class="bg-light">
+    
+    <header class="header bg-white shadow-sm fixed-top">
+        <div class="header-left container-fluid d-flex align-items-center py-2">
+            <div class="hamburger me-3" id="hamburger">
+                <span></span><span></span><span></span>
+            </div>
+            <div class="logo h4 mb-0 text-primary fw-bold">Sabores de Cobquecura</div>
+        </div>
+    </header>
+
+    <aside class="side-menu shadow" id="sideMenu">
+        <h2 class="h5 mb-4 text-primary fw-bold px-3 pt-3">Secciones</h2>
+        <nav class="nav flex-column px-2">
+            <a class="nav-link py-2 rounded mb-1" href="Index.html">🏠 Inicio</a>
+            <a class="nav-link py-2 rounded mb-1" href="venta_Rapida.html">👨‍🍳 Venta Rápida</a>
+             <a class="nav-link py-2 rounded mb-2 " href="cierre_caja.html">
+                <i class="bi bi-box-arrow-right me-2"></i>Cierre de Caja
+            </a>
+            <hr class="text-muted my-1">
+            <div class="nav-item">
+                <button class="nav-link py-2 rounded mb-1 w-100 text-start d-flex justify-content-between align-items-center bg-primary text-white" id="btn-reportes">
+                    <span>📊 Reportes</span>
+                    <span class="arrow rotate">▸</span>
+                </button>
+                <div class="submenu-accordion open" id="submenu-reportes">
+                    <a class="nav-link py-1 " href="total_ventas.html">Total de ventas</a>
+                    <a class="nav-link py-1 " href="venta_producto.html">Venta por producto</a>
+                    <a class="nav-link py-1" href="venta_usuario.html">Venta por usuario</a>
+                    <a class="nav-link py-1 fw-bold text-primary" href="medio_pago.html">Medio de pago</a>
+                    <a class="nav-link py-1" href="reporte_general.html">Reporte general</a>
+                    <a class="nav-link py-1" href="historial_pedidos.html">Historial pedidos</a>
+                    <a class="nav-link py-1" href="pedidos_anulados.html">Pedidos anulados</a>
+                </div>
+            </div>
+        </nav>
+    </aside>
+
+    <div class="overlay" id="overlay"></div>
+
+    <main class="container-fluid content-wrapper fade-in">
+        <div class="container py-4">
+            
+            <div class="mb-4">
+                <h1 class="h3 fw-bold text-dark mb-0">Flujo por Medios de Pago</h1>
+                <p class="text-muted" id="texto-periodo">Mostrando datos de: <b>Hoy</b></p>
+            </div>
+
+            <div class="card border-0 shadow-sm rounded-4 p-3 mb-4 bg-white">
+                <div class="row g-3 align-items-end">
+                    <div class="col-md-3">
+                        <label class="form-label small text-muted mb-1 fw-bold">Periodo</label>
+                        <select class="form-select" id="filtro-rango">
+                            <option value="hoy" selected>Día actual (Hoy)</option>
+                            <option value="mes">Mes actual</option>
+                            <option value="ano">Año actual</option>
+                            <option value="custom">Rango personalizado...</option>
+                        </select>
+                    </div>
+                    
+                    <div class="col-md-3 date-custom d-none">
+                        <label class="form-label small text-muted mb-1 fw-bold">Desde</label>
+                        <input type="date" class="form-control" id="fecha-inicio">
+                    </div>
+                    <div class="col-md-3 date-custom d-none">
+                        <label class="form-label small text-muted mb-1 fw-bold">Hasta</label>
+                        <input type="date" class="form-control" id="fecha-fin">
+                    </div>
+                    
+                    <div class="col-md-3 ms-auto">
+                        <button class="btn btn-primary w-100" id="btn-filtrar">
+                            <i class="bi bi-funnel me-2"></i>Aplicar Filtro
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4 mb-4">
+                <div class="col-md-6">
+                    <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100 highlight-card border-start border-success border-4">
+                        <div class="d-flex align-items-center">
+                            <div class="icon-box bg-success-subtle text-success rounded-circle p-3 me-3">
+                                <i class="bi bi-wallet2 fs-3"></i>
+                            </div>
+                            <div>
+                                <div class="text-muted small fw-bold text-uppercase mb-1">Ingresos del Periodo</div>
+                                <h3 class="fw-bold text-dark mb-0" id="total-ingresos">Cargando...</h3>
+                                <div class="text-secondary small mt-1" id="total-transacciones">-- transacciones</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100 highlight-card border-start border-primary border-4">
+                        <div class="d-flex align-items-center">
+                            <div class="icon-box bg-primary-subtle text-primary rounded-circle p-3 me-3">
+                                <i class="bi bi-award fs-3"></i>
+                            </div>
+                            <div>
+                                <div class="text-muted small fw-bold text-uppercase mb-1">Método Preferido</div>
+                                <h3 class="fw-bold text-primary mb-0" id="top-metodo-name">Cargando...</h3>
+                                <div class="text-secondary small mt-1" id="top-metodo-porcentaje">Representa el --% del total</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h5 class="fw-bold mb-3 mt-4">Desglose Detallado</h5>
+            <div class="row g-4" id="metodos-container">
+                </div>
+
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/medio_pago.js"></script> 
+</body>
+</html>
