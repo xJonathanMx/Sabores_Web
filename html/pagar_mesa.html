@@ -9,28 +9,30 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../css/pagar_mesa.css">
     <script src="../js/pagar_mesa.js"></script>
+    <link rel="stylesheet" href="../css/menu.css">
+
 </head>
 
 <body>
+    <div id="menu-container"></div>
+    <div class="menu-spacing"></div>
     <div class="container-main">
         <div class="card">
             <div class="header-section d-flex justify-content-between align-items-center">
-    
-    <button class="btn btn-light btn-sm" >
-        <a href="Index.html" role="button" aria-label="Volver">
-         <i class="fas fa-arrow-left"></i>
-     </a>
-    </button>
 
-    <h4 class="mb-0">
-        <i class="fas fa-money-bill-wave"></i> Cobro de Mesa
-    </h4>
+                <button class="btn btn-light btn-sm">
+                    <a href="Index.html" role="button" aria-label="Volver"><i class="fas fa-arrow-left"></i></a>
+                </button>
 
-    <span class="badge bg-light text-primary fs-6">
-        Mesa #<span id="mesaNum">5</span>
-    </span>
+                <h4 class="mb-0">
+                    <i class="fas fa-money-bill-wave"></i> Cobro de Mesa
+                </h4>
 
-</div>
+                <span class="badge bg-light text-primary fs-6">
+                    Mesa #<span id="mesaNum">5</span>
+                </span>
+
+            </div>
 
             <div class="card-body p-3">
                 <div class="row g-2 mb-3">
@@ -82,7 +84,15 @@
                         <i class="fas fa-exchange-alt"></i> Transferencia
                     </div>
                 </div>
-
+                <div class="section-title text-primary"><i class="fas fa-gift"></i> Propina</div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text bg-light">$</span>
+                    <input type="number" id="tipAmount" class="form-control" placeholder="Monto manual" min="0" step="1"
+                        value="0">
+                    <button type="button" class="btn btn-outline-primary" onclick="setTip(10)">10%</button>
+                    <button type="button" class="btn btn-outline-primary" onclick="setTip(15)">15%</button>
+                    <button type="button" class="btn btn-outline-primary" onclick="setTip(20)">20%</button>
+                </div>
                 <div class="input-group mb-3">
                     <span class="input-group-text bg-light"><i class="fas fa-dollar-sign"></i></span>
                     <input type="number" id="paymentAmount" class="form-control" placeholder="Monto a pagar" min="0"
@@ -112,15 +122,7 @@
                     </div>
                 </div>
 
-                <div class="section-title text-primary"><i class="fas fa-gift"></i> Propina</div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text bg-light">$</span>
-                    <input type="number" id="tipAmount" class="form-control" placeholder="Monto manual" min="0" step="1"
-                        value="0">
-                    <button type="button" class="btn btn-outline-primary" onclick="setTip(10)">10%</button>
-                    <button type="button" class="btn btn-outline-primary" onclick="setTip(15)">15%</button>
-                    <button type="button" class="btn btn-outline-primary" onclick="setTip(20)">20%</button>
-                </div>
+
 
                 <div class="row g-2 mt-2">
                     <div class="col-8">

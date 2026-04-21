@@ -160,3 +160,18 @@ body, html {
 /* Scrollbar estética */
 .mesas-scroll-container::-webkit-scrollbar { width: 6px; }
 .mesas-scroll-container::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
+/* --- ANIMACIÓN EN CASCADA PARA LAS MESAS --- */
+.mesa-card {
+    /* Mantenemos tus reglas anteriores y le sumamos la animación de entrada */
+    animation: fadeInUp 0.4s ease-out forwards;
+    opacity: 0; /* Comienza invisible para que el keyframe haga el trabajo */
+}
+
+/* Le damos un pequeño retraso a cada mesa para que entren en orden */
+.mesa-card:nth-child(1) { animation-delay: 0.1s; }
+.mesa-card:nth-child(2) { animation-delay: 0.15s; }
+.mesa-card:nth-child(3) { animation-delay: 0.2s; }
+.mesa-card:nth-child(4) { animation-delay: 0.25s; }
+.mesa-card:nth-child(5) { animation-delay: 0.3s; }
+.mesa-card:nth-child(6) { animation-delay: 0.35s; }
+.mesa-card:nth-child(n+7) { animation-delay: 0.4s; } /* Las demás entran juntas */
