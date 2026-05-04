@@ -36,7 +36,9 @@ body, html {
     outline: none !important;
 }
 
-.btn:hover, .filter-btn:hover { transform: scale(1.05); }
+.btn:hover, .filter-btn:hover { 
+    z-index: 1;
+    transform: scale(1.01); }
 .btn:active, .filter-btn:active, .quantity-selector .btn:active {
     transform: scale(0.92) !important;
 }
@@ -119,3 +121,18 @@ body, html {
 /* Scrollbar estética */
 .mesas-scroll-container::-webkit-scrollbar { width: 6px; }
 .mesas-scroll-container::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
+
+
+
+/* --- ESTILOS PARA CATEGORÍAS --- */
+.categorias-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent) transparent;
+}
+.categorias-scroll::-webkit-scrollbar {
+    height: 6px;
+}
+.categorias-scroll::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 10px;
+}

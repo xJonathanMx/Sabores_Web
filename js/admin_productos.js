@@ -32,14 +32,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 2. Base de Datos Falsa (Actualizada a 2 categorías) ---
     let inventario = [
-        { id: 1, nombre: "Paila Marina Especial", categoria: "Platos", precio: 15000 },
-        { id: 2, nombre: "Reineta a la plancha", categoria: "Platos", precio: 12000 },
-        { id: 3, nombre: "Ceviche Mixto", categoria: "Platos", precio: 15000 },
-        { id: 4, nombre: "Empanada Mariscos", categoria: "Platos", precio: 3000 },
-        { id: 5, nombre: "Pisco Sour Catedral", categoria: "Bebestibles", precio: 6000 },
-        { id: 6, nombre: "Bebida Express en Lata", categoria: "Bebestibles", precio: 2000 },
-        { id: 7, nombre: "Lomo a lo Pobre", categoria: "Platos", precio: 13500 },
-        { id: 8, nombre: "Jugo Natural Frambuesa", categoria: "Bebestibles", precio: 3500 }
+        { id: 1, nombre: "Paila Marina Especial", categoria: "Cocina", precio: 15000 },
+        { id: 2, nombre: "Reineta a la plancha", categoria: "Cocina", precio: 12000 },
+        { id: 3, nombre: "Ceviche Mixto", categoria: "Cocina", precio: 15000 },
+        { id: 4, nombre: "Empanada Mariscos", categoria: "Cocina", precio: 3000 },
+        { id: 5, nombre: "Pisco Sour Catedral", categoria: "Heladeria", precio: 6000 },
+        { id: 6, nombre: "Bebida Express en Lata", categoria: "Heladeria", precio: 2000 },
+        { id: 7, nombre: "Lomo a lo Pobre", categoria: "Cocina", precio: 13500 },
+        { id: 8, nombre: "Jugo Natural Frambuesa", categoria: "Heladeria", precio: 3500 }
     ];
 
     // --- 3. Referencias al DOM ---
@@ -76,11 +76,11 @@ document.addEventListener('DOMContentLoaded', () => {
             let badgeClass = 'bg-secondary';
             let iconClass = 'bi-box';
             
-            if (prod.categoria === 'Platos') {
+            if (prod.categoria === 'Cocina') {
                 badgeClass = 'bg-warning text-dark';
                 iconClass = 'bi-fire'; // Icono de cocina
             }
-            if (prod.categoria === 'Bebestibles') {
+            if (prod.categoria === 'Heladeria') {
                 badgeClass = 'bg-info text-dark';
                 iconClass = 'bi-cup-straw'; // Icono de bebida
             }

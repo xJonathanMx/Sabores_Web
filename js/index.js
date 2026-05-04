@@ -31,17 +31,33 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- 3. Filtros de Mesas (Visual) ---
+    // --- 3. Filtros de Mesas (Visual y Funcional) ---
     const filterBtns = document.querySelectorAll('.filter-btn');
+    const mesas = document.querySelectorAll('.mesa-card'); // Capturamos todas las mesas
+
     filterBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
-            // Quitar clase active de todos
+            // 1. Cambiar la apariencia de los botones
             filterBtns.forEach(b => {
                 b.classList.remove('btn-primary', 'active');
                 b.classList.add('btn-outline-primary');
             });
-            // Activar el presionado
             e.target.classList.remove('btn-outline-primary');
             e.target.classList.add('btn-primary', 'active');
+
+            // 2. Lógica para filtrar las mesas
+            const filtroSeleccionado = e.target.getAttribute('data-filter');
+
+            mesas.forEach(mesa => {
+                const categoriaMesa = mesa.getAttribute('data-category');
+                
+                // Si el botón es "all" o si la categoría de la mesa coincide con el botón
+                if (filtroSeleccionado === 'all' || categoriaMesa === filtroSeleccionado) {
+                    mesa.classList.remove('d-none'); // Quitamos la clase que oculta (mostramos la mesa)
+                } else {
+                    mesa.classList.add('d-none'); // Agregamos la clase de Bootstrap para ocultarla
+                }
+            });
         });
     });
 
@@ -148,5 +164,44 @@ document.addEventListener('DOMContentLoaded', () => {
         const fila = boton.closest('tr');
         fila.remove();
     };
+    //eliminar mesa
+    // --- 8. Guardar Comanda ---
+    const btnGuardarComanda = document.getElementById('btn-guardar');
+    
+    btnGuardarComanda?.addEventListener('click', () => {
+        // Validamos si hay productos en la tabla (opcional pero recomendado)
+        const productosEnTabla = document.querySelectorAll('#detalle-productos tr');
+        
+        if (productosEnTabla.length === 0) {
+            alert("⚠️ No puedes guardar una comanda vacía. Agrega productos primero.");
+            return;
+        }
+
+        // Mostrar mensaje de éxito
+        alert("✅ ¡La comanda se ha guardado correctamente!");
+        
+        // (Opcional) Aquí puedes limpiar la tabla y los inputs después de guardar
+        // document.getElementById('detalle-productos').innerHTML = "";
+    });
+
+    // --- 9. Eliminar Mesa (Con motivo obligatorio) ---
+    const btnEliminarMesa = document.getElementById('btn-eliminar-mesa');
+
+    btnEliminarMesa?.addEventListener('click', () => {
+        // Pedimos el motivo mediante un prompt
+        const motivo = prompt("⚠️ Para eliminar la mesa, debes ingresar un motivo (Obligatorio):");
+
+        // Verificamos si el usuario presionó cancelar (null) o si dejó el texto en blanco
+        if (motivo === null || motivo.trim() === "") {
+            alert("❌ Acción cancelada: Es obligatorio ingresar un motivo para eliminar la mesa.");
+        } else {
+            // Si hay un motivo válido, mostramos éxito
+            alert(`🗑️ Mesa eliminada con éxito.\nMotivo registrado: "${motivo.trim()}"`);
+            
+            // Aquí iría tu lógica real para liberar la mesa en la base de datos
+            // y quizás limpiar el panel de la comanda actual.
+            document.getElementById('detalle-productos').innerHTML = "";
+        }
+    });
 
 });

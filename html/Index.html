@@ -28,9 +28,7 @@
             <a class="nav-link py-2 rounded mb-1 fw-bold bg-primary text-white" href="Index.html">🏠 Inicio</a>
             <a class="nav-link py-2 rounded mb-1" href="venta_Rapida.html">👨‍🍳 Venta Rápida</a>
             
-            <a class="nav-link py-2 rounded mb-2 " href="cierre_caja.html">
-                                <i class="bi bi-box-arrow-right me-2"></i>Cierre de Caja
-            </a>
+            
             
             <hr class="text-muted my-1">
 
@@ -49,13 +47,17 @@
                 </div>
             </div>
             <hr class="text-muted my-1">
-
             <h6 class="text-muted fw-bold px-3 mt-3 mb-2 small text-uppercase">Administración</h6>
+                <a class="nav-link py-2 rounded mb-1 " href="admin_mesas.html">
+                    🪑 Gestión de Mesas
             <a class="nav-link py-2 rounded mb-1 " href="admin_productos.html">
-                <i class="bi bi-card-list me-2"></i>Gestión de Carta
+                🍽️ Gestión de Carta
             </a>
             <a class="nav-link py-2 rounded mb-1 " href="admin_usuarios.html">
-                <i class="bi bi-people-fill me-2"></i>Usuarios / Personal
+                👨‍💼 Usuarios / Personal
+            </a>
+            <a class="nav-link py-2 rounded mb-2 " href="cierre_caja.html">
+                💰 Cierre de Caja
             </a>
         </nav>
     </aside>
@@ -80,23 +82,38 @@
                                 data-filter="interior">Interior</button>
                         </div>
                         <div class="mesas-list">
-                            <div class="mesa-card disponible">
-                                <div class="mesa-info"><span class="mesa-number">Mesa 1</span><span class="mesa-id">ID:
-                                        101</span><span class="mesa-garzon">Libre</span></div>
-                            </div>
-                            <div class="mesa-card ocupada">
-                                <div class="mesa-info"><span class="mesa-number">Mesa 2</span><span class="mesa-id">ID:
-                                        102</span><span class="mesa-garzon">👤 Juan P.</span></div>
-                            </div>
-                            <div class="mesa-card disponible">
-                                <div class="mesa-info"><span class="mesa-number">Mesa 3</span><span class="mesa-id">ID:
-                                        103</span><span class="mesa-garzon">Libre</span></div>
-                            </div>
-                            <div class="mesa-card ocupada">
-                                <div class="mesa-info"><span class="mesa-number">Mesa 4</span><span class="mesa-id">ID:
-                                        104</span><span class="mesa-garzon">👤 Ana M.</span></div>
-                            </div>
-                        </div>
+    <div class="mesa-card disponible" data-category="terraza-int">
+        <div class="mesa-info">
+            <span class="mesa-number">Mesa 1</span>
+            <span class="mesa-id">ID: 101</span>
+            <span class="mesa-garzon">Libre</span>
+        </div>
+    </div>
+    
+    <div class="mesa-card ocupada" data-category="interior">
+        <div class="mesa-info">
+            <span class="mesa-number">Mesa 2</span>
+            <span class="mesa-id">ID: 102</span>
+            <span class="mesa-garzon">👤 Juan P.</span>
+        </div>
+    </div>
+    
+    <div class="mesa-card disponible" data-category="terraza-ext">
+        <div class="mesa-info">
+            <span class="mesa-number">Mesa 3</span>
+            <span class="mesa-id">ID: 103</span>
+            <span class="mesa-garzon">Libre</span>
+        </div>
+    </div>
+    
+    <div class="mesa-card ocupada" data-category="mi-mesa">
+        <div class="mesa-info">
+            <span class="mesa-number">Mesa 4</span>
+            <span class="mesa-id">ID: 104</span>
+            <span class="mesa-garzon">👤 Ana M.</span>
+        </div>
+    </div>
+</div>
                     </div>
                 </section>
 
@@ -193,7 +210,7 @@
                                 </div>
                                 <div class="col d-flex flex-column gap-2">
                                     <a href="pagar_mesa.html" class="btn btn-warning"> Pagar Mesa</a>
-                                    <button class="btn btn-outline-danger btn-sm">Eliminar Mesa</button>
+                                    <button class="btn btn-outline-danger btn-sm" id="btn-eliminar-mesa">Eliminar Mesa</button>
                                 </div>
                             </div>
                         </div>

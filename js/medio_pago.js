@@ -62,8 +62,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputsCustom = document.querySelectorAll('.date-custom');
     const btnFiltrar = document.getElementById('btn-filtrar');
     const textoPeriodo = document.getElementById('texto-periodo');
+    
+    // VARIABLE GLOBAL NUEVA: Guarda los datos actuales de la pantalla
+    let datosActualesParaExcel = []; 
 
-    // Mostrar/Ocultar campos de fecha si elige "Personalizado"
     selectRango.addEventListener('change', (e) => {
         if (e.target.value === 'custom') {
             inputsCustom.forEach(el => el.classList.remove('d-none'));
@@ -72,10 +74,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Acción al hacer clic en Aplicar Filtro
     btnFiltrar.addEventListener('click', () => {
         const seleccion = selectRango.value;
-        
         let datosAUsar = [];
         let textoLabel = "";
 
@@ -86,7 +86,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert("Por favor, selecciona ambas fechas.");
                 return;
             }
-            // Simulamos que al usar custom, trae los datos de 'mes' para rellenar
             datosAUsar = baseDeDatosFalsa.mes; 
             textoLabel = `Desde ${inicio} hasta ${fin}`;
         } else {
@@ -95,39 +94,35 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         textoPeriodo.innerHTML = `Mostrando datos de: <b>${textoLabel}</b>`;
-        
-        // Llamamos a la función que dibuja todo de nuevo
         renderizarReporte(datosAUsar);
     });
 
     // --- 5. Función Principal para Renderizar ---
     function renderizarReporte(datosOriginales) {
-        // Clonar y ordenar de mayor a menor monto
+        // Clonar y ordenar
         let datosPagos = [...datosOriginales].sort((a, b) => b.monto - a.monto);
+        
+        // ¡NUEVO! Guardamos los datos para que el botón Excel los pueda leer
+        datosActualesParaExcel = datosPagos;
 
-        // Calcular Totales Generales
         const totalIngresos = datosPagos.reduce((sum, pago) => sum + pago.monto, 0);
         const totalTransacciones = datosPagos.reduce((sum, pago) => sum + pago.transacciones, 0);
 
-        // Llenar los Globos Superiores
         if(datosPagos.length > 0) {
             const metodoTop = datosPagos[0];
             const porcentajeTop = Math.round((metodoTop.monto / totalIngresos) * 100);
 
             document.getElementById('total-ingresos').textContent = formatoPesos.format(totalIngresos);
             document.getElementById('total-transacciones').textContent = `${totalTransacciones} transacciones`;
-            
             document.getElementById('top-metodo-name').textContent = metodoTop.metodo;
             document.getElementById('top-metodo-porcentaje').textContent = `Representa el ${porcentajeTop}% del ingreso`;
         }
 
-        // Renderizar Tarjetas de Desglose
         const container = document.getElementById('metodos-container');
-        container.innerHTML = ''; // Limpiar contenedor
+        container.innerHTML = ''; 
 
         datosPagos.forEach(pago => {
             const porcentaje = Math.round((pago.monto / totalIngresos) * 100) || 0;
-
             const cardHTML = `
                 <div class="col-12 col-md-6">
                     <div class="card border-0 shadow-sm rounded-4 p-4 h-100 highlight-card">
@@ -145,18 +140,12 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <h5 class="fw-bold text-dark mb-0">${formatoPesos.format(pago.monto)}</h5>
                             </div>
                         </div>
-                        
                         <div class="d-flex justify-content-between text-muted small mb-1">
                             <span>Participación</span>
                             <span class="fw-bold text-${pago.color}">${porcentaje}%</span>
                         </div>
                         <div class="progress">
-                            <div class="progress-bar bg-${pago.color}" 
-                                 role="progressbar" 
-                                 data-width="${porcentaje}%" 
-                                 style="width: 0%;" 
-                                 aria-valuenow="${porcentaje}" aria-valuemin="0" aria-valuemax="100">
-                            </div>
+                            <div class="progress-bar bg-${pago.color}" role="progressbar" data-width="${porcentaje}%" style="width: 0%;" aria-valuenow="${porcentaje}" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
                 </div>
@@ -164,7 +153,6 @@ document.addEventListener('DOMContentLoaded', () => {
             container.innerHTML += cardHTML;
         });
 
-        // Animar las barras después de renderizar
         setTimeout(() => {
             const barras = document.querySelectorAll('.progress-bar');
             barras.forEach(barra => {
@@ -173,7 +161,46 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 50);
     }
 
-    // --- 6. Carga inicial de la página (Por defecto "Hoy") ---
+    // --- 6. EXPORTAR A EXCEL ---
+    document.getElementById('btn-exportar')?.addEventListener('click', () => {
+        if(datosActualesParaExcel.length === 0) {
+            alert("No hay datos para exportar en este periodo.");
+            return;
+        }
+
+        // 6.1 Preparar los datos en el formato que pide Excel
+        const dataParaExcel = datosActualesParaExcel.map(item => ({
+            "Método de Pago": item.metodo,
+            "Cantidad Transacciones": item.transacciones,
+            "Monto Recaudado ($)": item.monto
+        }));
+
+        // 6.2 Agregar una fila final con los Totales
+        const totalMonto = datosActualesParaExcel.reduce((sum, item) => sum + item.monto, 0);
+        const totalTrans = datosActualesParaExcel.reduce((sum, item) => sum + item.transacciones, 0);
+        
+        dataParaExcel.push({
+            "Método de Pago": "TOTAL GENERAL",
+            "Cantidad Transacciones": totalTrans,
+            "Monto Recaudado ($)": totalMonto
+        });
+
+        // 6.3 Crear el archivo de Excel virtual
+        const libroDeTrabajo = XLSX.utils.book_new();
+        const hojaDeDatos = XLSX.utils.json_to_sheet(dataParaExcel);
+        
+        // Agregamos la hoja al libro
+        XLSX.utils.book_append_sheet(libroDeTrabajo, hojaDeDatos, "Reporte de Pagos");
+
+        // 6.4 Obtener el nombre del archivo según el filtro (ej: Reporte_Pagos_Mes_actual.xlsx)
+        const seleccion = selectRango.options[selectRango.selectedIndex].text;
+        const nombreArchivo = `Reporte_Pagos_${seleccion.replace(/ /g, "_")}.xlsx`;
+
+        // 6.5 Descargar el archivo
+        XLSX.writeFile(libroDeTrabajo, nombreArchivo);
+    });
+
+    // --- 7. Carga inicial ---
     renderizarReporte(baseDeDatosFalsa.hoy);
 
 });

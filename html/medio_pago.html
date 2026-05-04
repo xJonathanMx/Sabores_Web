@@ -7,7 +7,7 @@
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    
+    <link rel="icon" type="image/x-icon" href="../img/R-removebg-preview.png">
     <link rel="stylesheet" href="../css/medio_pago.css">
 </head>
 <body class="bg-light">
@@ -19,7 +19,12 @@
             </div>
             <img src="../img/F7120FC1-6892-461F-A051-16684D123646_1_100_o.jpeg" alt="Logo" class="logo-img rounded-circle me-2" style="height: 40px; object-fit: cover;">
             <div class="logo h4 mb-0 text-primary fw-bold">Sabores de Cobquecura</div>
+            
         </div>
+        <link rel="stylesheet" href="../css/medio_pago.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
     </header>
 
     <aside class="side-menu shadow" id="sideMenu">
@@ -27,9 +32,7 @@
         <nav class="nav flex-column px-2">
             <a class="nav-link py-2 rounded mb-1" href="Index.html">🏠 Inicio</a>
             <a class="nav-link py-2 rounded mb-1" href="venta_Rapida.html">👨‍🍳 Venta Rápida</a>
-             <a class="nav-link py-2 rounded mb-2 " href="cierre_caja.html">
-                <i class="bi bi-box-arrow-right me-2"></i>Cierre de Caja
-            </a>
+             
             <hr class="text-muted my-1">
             <div class="nav-item">
                 <button class="nav-link py-2 rounded mb-1 w-100 text-start d-flex justify-content-between align-items-center bg-primary text-white" id="btn-reportes">
@@ -48,11 +51,17 @@
             <hr class="text-muted my-1">
 
             <h6 class="text-muted fw-bold px-3 mt-3 mb-2 small text-uppercase">Administración</h6>
+             <a class="nav-link py-2 rounded mb-1 " href="admin_mesas.html">
+                🪑 Gestión de Mesas
+            </a>
             <a class="nav-link py-2 rounded mb-1 " href="admin_productos.html">
-                <i class="bi bi-card-list me-2"></i>Gestión de Carta
+                🍽️ Gestión de Carta
             </a>
             <a class="nav-link py-2 rounded mb-1 " href="admin_usuarios.html">
-                <i class="bi bi-people-fill me-2"></i>Usuarios / Personal
+                👨‍💼 Usuarios / Personal
+            </a>
+            <a class="nav-link py-2 rounded mb-2 " href="cierre_caja.html">
+                💰 Cierre de Caja
             </a>
         </nav>
     </aside>
@@ -63,9 +72,19 @@
         <div class="container py-4">
             
             <div class="mb-4">
-                <h1 class="h3 fw-bold text-dark mb-0">Flujo por Medios de Pago</h1>
-                <p class="text-muted" id="texto-periodo">Mostrando datos de: <b>Hoy</b></p>
+                <div class="mb-4 d-flex justify-content-between align-items-center flex-wrap gap-3">
+                <div>
+                    <h1 class="h3 fw-bold text-dark mb-0">Flujo por Medios de Pago</h1>
+                    <p class="text-muted mb-0" id="texto-periodo">Mostrando datos de: <b>Hoy</b></p>
+                </div>
+                <div>
+                    <button class="btn btn-success shadow-sm fw-bold px-4 py-2" id="btn-exportar">
+                        <i class="bi bi-file-earmark-excel me-2"></i>Exportar Excel
+                    </button>
+                </div>
             </div>
+                
+                
 
             <div class="card border-0 shadow-sm rounded-4 p-3 mb-4 bg-white">
                 <div class="row g-3 align-items-end">

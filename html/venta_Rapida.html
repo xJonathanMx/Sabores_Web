@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Venta Rápida - Sabores de Cobquecura</title>
-    
+    <link rel="icon" type="image/x-icon" href="../img/R-removebg-preview.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../css/venta_rapida.css">
@@ -19,6 +19,7 @@
             </div>
             <img src="../img/F7120FC1-6892-461F-A051-16684D123646_1_100_o.jpeg" alt="Logo" class="logo-img rounded-circle me-2" style="height: 40px; object-fit: cover;">
             <div class="logo h4 mb-0 text-primary fw-bold">Sabores de Cobquecura</div>
+            <link rel="icon" type="image/x-icon" href="../img/R-removebg-preview.png">
         </div>
     </header>
 
@@ -28,9 +29,7 @@
             <a class="nav-link py-2 rounded mb-1" href="Index.html">🏠 Inicio</a>
             <a class="nav-link py-2 rounded mb-1 fw-bold bg-primary text-white" href="venta_Rapida.html">👨‍🍳 Venta Rápida</a>
             
-            <a class="nav-link py-2 rounded mb-2 " href="cierre_caja.html">
-                <i class="bi bi-box-arrow-right me-2"></i>Cierre de Caja
-            </a>
+           
             
             <hr class="text-muted my-1">
 
@@ -50,12 +49,18 @@
             </div>
             <hr class="text-muted my-1">
 
-            <h6 class="text-muted fw-bold px-3 mt-3 mb-2 small text-uppercase">Administración</h6>
+           <h6 class="text-muted fw-bold px-3 mt-3 mb-2 small text-uppercase">Administración</h6>
+            <a class="nav-link py-2 rounded mb-1 " href="admin_mesas.html">
+                🪑 Gestión de Mesas
+            </a>
             <a class="nav-link py-2 rounded mb-1 " href="admin_productos.html">
-                <i class="bi bi-card-list me-2"></i>Gestión de Carta
+                🍽️ Gestión de Carta
             </a>
             <a class="nav-link py-2 rounded mb-1 " href="admin_usuarios.html">
-                <i class="bi bi-people-fill me-2"></i>Usuarios / Personal
+                👨‍💼 Usuarios / Personal
+            </a>
+            <a class="nav-link py-2 rounded mb-2 " href="cierre_caja.html">
+                💰 Cierre de Caja
             </a>
         </nav>
     </aside>
@@ -74,6 +79,15 @@
                 </div>
 
                 <div class="row g-3 mb-4 align-items-end bg-light p-3 rounded-3 border">
+                    <div class="mb-4">
+                    <label class="form-label small fw-bold text-primary">Categorías</label>
+                    <div class="d-flex gap-2 overflow-auto pb-2 categorias-scroll" id="contenedor-categorias">
+                        <button class="btn btn-primary rounded-pill px-4 filter-btn active" data-categoria="todas">Todas</button>
+                        <button class="btn btn-outline-primary rounded-pill px-4 filter-btn" data-categoria="comida">Comida</button>
+                        <button class="btn btn-outline-primary rounded-pill px-4 filter-btn" data-categoria="empanadas">Empanadas</button>
+                        <button class="btn btn-outline-primary rounded-pill px-4 filter-btn" data-categoria="bebidas">Bebidas</button>
+                    </div>
+                </div>
                     <div class="mb-3 position-relative">
                                 <label class="form-label small fw-bold text-primary">Búsqueda Rápida 🔍</label>
                                 <input type="text" class="form-control form-control-sm" id="buscador-producto"

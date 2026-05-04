@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sabores - Gestión de Mesas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/Index.css" />
+    <link rel="icon" type="image/x-icon" href="../img/R-removebg-preview.png">
+</head>
+
+<body class="bg-light">
+    <header class="header bg-white shadow-sm fixed-top">
+        <div class="header-left container-fluid d-flex align-items-center py-2">
+            <div class="hamburger me-3" id="hamburger">
+                <span></span><span></span><span></span>
+            </div>
+            <img src="../img/F7120FC1-6892-461F-A051-16684D123646_1_100_o.jpeg" alt="Logo" class="logo-img rounded-circle me-2" style="height: 40px; object-fit: cover;">
+            <div class="logo h4 mb-0 text-primary fw-bold">Sabores de Cobquecura</div>
+        </div>
+    </header>
+
+    <aside class="side-menu shadow" id="sideMenu">
+        <h2 class="h5 mb-4 text-primary fw-bold px-3 pt-3">Secciones</h2>
+        <nav class="nav flex-column px-2">
+            <a class="nav-link py-2 rounded mb-1" href="Index.html">🏠 Inicio</a>
+            <a class="nav-link py-2 rounded mb-1" href="venta_Rapida.html">👨‍🍳 Venta Rápida</a>
+            
+            <hr class="text-muted my-1">
+
+            <div class="nav-item mt-2">
+                <button class="nav-link py-2 rounded mb-1 w-100 text-start d-flex justify-content-between align-items-center text-dark" id="btn-reportes">
+                    <span>📊 Reportes</span>
+                    <span class="arrow">▸</span>
+                </button>
+                <div class="submenu-accordion" id="submenu-reportes">
+                    <a class="nav-link py-1" href="reporte_general.html">Reporte general</a> 
+                    <a class="nav-link py-1" href="total_ventas.html">Total de ventas</a>
+                    <a class="nav-link py-1" href="venta_producto.html">Venta por producto</a>
+                    <a class="nav-link py-1" href="venta_usuario.html">Venta por usuario</a>
+                    <a class="nav-link py-1" href="medio_pago.html">Medio de pago</a>
+                    <a class="nav-link py-1" href="historial_pedidos.html">Historial pedidos</a>
+                </div>
+            </div>
+            <hr class="text-muted my-1">
+            <h6 class="text-muted fw-bold px-3 mt-3 mb-2 small text-uppercase">Administración</h6>
+            <a class="nav-link py-2 rounded mb-1 bg-primary text-white fw-bold" href="admin_mesas.html">
+                🪑 Gestión de Mesas
+            </a>
+            <a class="nav-link py-2 rounded mb-1 " href="admin_productos.html">
+                🍽️ Gestión de Carta
+            </a>
+            <a class="nav-link py-2 rounded mb-1 " href="admin_usuarios.html">
+                👨‍💼 Usuarios / Personal
+            </a>
+            <a class="nav-link py-2 rounded mb-2 " href="cierre_caja.html">
+                💰 Cierre de Caja
+            </a>
+        </nav>
+    </aside>
+
+    <div class="overlay" id="overlay"></div>
+
+    <main class="container-fluid content-wrapper">
+        <div class="row g-3">
+            
+            <section class="col-lg-4">
+                <div class="card border-0 shadow-sm p-4 main-card-anim">
+                    <h2 class="h5 mb-4 text-primary border-bottom pb-2">➕ Agregar Nueva Mesa</h2>
+                    <form id="form-agregar-mesa">
+                        <div class="mb-3">
+                            <label for="numero-mesa" class="form-label small fw-bold">Número de Mesa</label>
+                            <input type="number" class="form-control" id="numero-mesa" placeholder="Ej: 5" required min="1">
+                        </div>
+                        <div class="mb-3">
+                            <label for="sector-mesa" class="form-label small fw-bold">Tipo de Comedor (Sector)</label>
+                            <select class="form-select" id="sector-mesa" required>
+                                <option value="" disabled selected>Selecciona un sector...</option>
+                                <option value="interior">Interior</option>
+                                <option value="terraza-int">Terraza Interior</option>
+                                <option value="terraza-ext">Terraza Exterior</option>
+                                <option value="mi-mesa">Mis Mesas</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 fw-bold mt-2">Guardar Mesa</button>
+                    </form>
+                </div>
+            </section>
+
+            <section class="col-lg-8">
+                <div class="card border-0 shadow-sm p-4 main-card-anim" style="animation-delay: 0.1s;">
+                    <h2 class="h5 mb-4 text-dark border-bottom pb-2">📋 Mesas Registradas</h2>
+                    
+                    <div class="table-responsive" style="max-height: 500px; overflow-y: auto;">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light sticky-top">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>N° Mesa</th>
+                                    <th>Sector</th>
+                                    <th>Estado</th>
+                                    <th class="text-end">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="lista-mesas-tabla">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/admin_mesas.js"></script>
+</body>
+</html>

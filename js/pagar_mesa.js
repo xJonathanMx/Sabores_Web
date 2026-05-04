@@ -3,52 +3,68 @@
 // ======================
 let selectedPayment = 'efectivo';
 let payments = [];
-
+let assignedTip = 0; // Propina oficialmente asignada al garzón
 
 // ======================
-// FORMATO CLP
+// UTILIDADES
 // ======================
 function formatCLP(value) {
     return Number(value).toLocaleString('es-CL');
 }
 
-
 // ======================
-// INICIALIZACIÓN
+// INICIALIZACIÓN Y EVENTOS DOM
 // ======================
 document.addEventListener("DOMContentLoaded", () => {
-    const subtotal = parseInt(document.getElementById('subtotal').textContent) || 0;
-    const suggestedTip = Math.round(subtotal * 0.10);
+    // 1. Inicializar menú hamburguesa
+    const hamburger = document.getElementById('hamburger');
+    const sideMenu = document.getElementById('sideMenu');
+    
+    if (hamburger && sideMenu) {
+        hamburger.addEventListener('click', () => {
+            sideMenu.classList.toggle('active');
+            // ¡ESTA ES LA LÍNEA MÁGICA QUE ACTIVA LA "X"!
+            hamburger.classList.toggle('open'); 
+        });
+    }
 
-    document.getElementById('tipAmount').value = suggestedTip;
+    // 2. Inicializar submenú de reportes (Acordeón)
+    const btnReportes = document.getElementById('btn-reportes');
+    const submenuReportes = document.getElementById('submenu-reportes');
+    
+    if (btnReportes && submenuReportes) {
+        btnReportes.addEventListener('click', () => {
+            submenuReportes.classList.toggle('show');
+            // Rotar la flecha
+            const arrow = btnReportes.querySelector('.arrow');
+            if (arrow) {
+                arrow.style.transform = submenuReportes.classList.contains('show') ? 'rotate(90deg)' : 'rotate(0deg)';
+                arrow.style.transition = 'transform 0.3s ease';
+            }
+        });
+    }
 
-    // Detectar cambios en propina
-    document.getElementById('tipAmount').addEventListener('input', updateTotals);
-
+    // 3. Inicializar los totales de la mesa
     updateTotals();
 });
 
-
 // ======================
-// MÉTODO DE PAGO
+// MÉTODOS DE PAGO
 // ======================
 function selectPayment(element, method) {
-    document.querySelectorAll('.payment-method')
-        .forEach(el => el.classList.remove('active'));
-
+    // Quitar la clase 'active' de todos los botones
+    document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('active'));
+    // Agregarla solo al que se hizo clic
     element.classList.add('active');
     selectedPayment = method;
 }
 
-
-// ======================
-// PAGOS
-// ======================
 function addPayment() {
-    const amount = parseInt(document.getElementById('paymentAmount').value);
+    const amountInput = document.getElementById('paymentAmount');
+    const amount = parseInt(amountInput.value);
 
     if (!amount || amount <= 0) {
-        alert('Ingrese un monto válido');
+        alert('Por favor, ingrese un monto válido a pagar.');
         return;
     }
 
@@ -60,8 +76,9 @@ function addPayment() {
 
     updatePaymentList();
     checkBalance();
-
-    document.getElementById('paymentAmount').value = '';
+    
+    // Limpiar input
+    amountInput.value = '';
 }
 
 function updatePaymentList() {
@@ -87,7 +104,7 @@ function updatePaymentList() {
         }
 
         html += `
-            <div class="payment-item">
+            <div class="payment-item shadow-sm">
                 <div>
                     <i class="fas ${methodIcon} text-primary"></i> 
                     <strong>$${formatCLP(payment.amount)}</strong> 
@@ -110,89 +127,101 @@ function removePayment(index) {
     checkBalance();
 }
 
+// ======================
+// PROPINA Y TOTALES
+// ======================
+function setTip(percentage) {
+    const subtotal = parseInt(document.getElementById('subtotal').textContent.replace(/\./g, '')) || 0;
+    const tip = Math.round(subtotal * (percentage / 100));
+    document.getElementById('tipAmount').value = tip;
+}
 
-// ======================
-// CÁLCULOS
-// ======================
+function addTip() {
+    const inputTip = parseInt(document.getElementById('tipAmount').value) || 0;
+    const waiterName = document.getElementById('waiterName').textContent;
+    
+    assignedTip = inputTip;
+    
+    const feedback = document.getElementById('tipFeedback');
+    if (assignedTip > 0) {
+        document.getElementById('tipConfirmAmount').textContent = formatCLP(assignedTip);
+        document.getElementById('tipConfirmWaiter').textContent = waiterName;
+        feedback.classList.remove('d-none');
+    } else {
+        feedback.classList.add('d-none');
+    }
+
+    updateTotals();
+}
+
 function updateTotals() {
     const subtotal = parseInt(document.getElementById('subtotal').textContent.replace(/\./g, '')) || 0;
-    const tax = Math.round(subtotal * 0.19);
+    const total = subtotal + assignedTip;
 
-    // 🔥 IMPORTANTE: la propina NO se suma al total
-    const total = subtotal + tax;
-
-    document.getElementById('tax').textContent = formatCLP(tax);
+    document.getElementById('tipDisplay').textContent = formatCLP(assignedTip);
     document.getElementById('totalAmount').textContent = formatCLP(total);
-
-    // Propina sugerida (solo visual)
-    const suggestedTip = Math.round(subtotal * 0.10);
-    document.getElementById('tipAmount').placeholder = formatCLP(suggestedTip);
-
-    const tip = parseInt(document.getElementById('tipAmount').value) || 0;
-    document.getElementById('tipDisplay').textContent = formatCLP(tip);
 
     checkBalance();
 }
 
-function setTip(percentage) {
-    const subtotal = parseInt(document.getElementById('subtotal').textContent.replace(/\./g, '')) || 0;
-    const tip = Math.round(subtotal * (percentage / 100));
-
-    document.getElementById('tipAmount').value = tip;
-    updateTotals();
-}
-
-
 // ======================
-// BALANCE
+// BALANCE Y VUELTO
 // ======================
 function checkBalance() {
     const total = parseInt(document.getElementById('totalAmount').textContent.replace(/\./g, '')) || 0;
     const totalPaid = payments.reduce((sum, p) => sum + p.amount, 0);
     const balance = total - totalPaid;
 
-    document.getElementById('balance').textContent = formatCLP(Math.max(0, balance));
-
     const balanceBox = document.getElementById('balanceBox');
+    const balanceLabel = document.getElementById('balanceLabel');
+    const balanceValue = document.getElementById('balance');
+
     balanceBox.classList.remove('success', 'error');
 
-    if (balance <= 0) {
-        balanceBox.classList.add('success');
-        document.getElementById('liberarBtn').disabled = false;
-    } else {
+    if (balance > 0) {
+        balanceLabel.textContent = 'Falta:';
+        balanceValue.textContent = formatCLP(balance);
         balanceBox.classList.add('error');
         document.getElementById('liberarBtn').disabled = true;
+    } else {
+        balanceBox.classList.add('success');
+        document.getElementById('liberarBtn').disabled = false;
+
+        if (balance < 0) {
+            balanceLabel.textContent = 'Vuelto:';
+            balanceValue.textContent = formatCLP(Math.abs(balance));
+        } else {
+            balanceLabel.textContent = 'Falta:';
+            balanceValue.textContent = '0';
+        }
     }
 }
 
-
 // ======================
-// FINALIZAR
+// FINALIZAR Y LIMPIAR
 // ======================
 function liberarMesa() {
-    const tip = parseInt(document.getElementById('tipAmount').value) || 0;
     const totalPaid = payments.reduce((sum, p) => sum + p.amount, 0);
+    const total = parseInt(document.getElementById('totalAmount').textContent.replace(/\./g, '')) || 0;
+    const waiterName = document.getElementById('waiterName').textContent;
+    
+    let mensajeVuelto = "";
+    if (totalPaid > total) {
+        mensajeVuelto = `\nVuelto a entregar: $${formatCLP(totalPaid - total)}`;
+    }
 
-    alert(`✓ Mesa liberada exitosamente!
-
-Resumen:
-Total pagado: $${formatCLP(totalPaid)}
-Propina: $${formatCLP(tip)}
-`);
+    alert(`✓ Mesa liberada exitosamente!\n\nResumen de Base de Datos:\n- Total Cuenta: $${formatCLP(total)}\n- Total Recibido: $${formatCLP(totalPaid)}${mensajeVuelto}\n- Propina para ${waiterName}: $${formatCLP(assignedTip)}`);
 
     limpiar();
 }
 
-
-// ======================
-// LIMPIAR
-// ======================
 function limpiar() {
     payments = [];
-
+    assignedTip = 0; 
     document.getElementById('paymentAmount').value = '';
     document.getElementById('tipAmount').value = '0';
-
+    document.getElementById('tipFeedback').classList.add('d-none');
+    
     updatePaymentList();
     updateTotals();
 }

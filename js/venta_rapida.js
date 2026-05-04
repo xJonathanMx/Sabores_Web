@@ -4,13 +4,49 @@ let carrito = [];
 // --- DATOS PARA EL BUSCADOR ---
 // Lista plana basada en los options de tu HTML
 const productosLista = [
-    { nombre: "Tacos al Pastor", precio: 5000 },
-    { nombre: "Enchiladas", precio: 4000 },
-    { nombre: "Empanada de Pino", precio: 2500 },
-    { nombre: "Bebida Lata 350cc", precio: 1500 }
+    { nombre: "Tacos al Pastor", precio: 5000, categoria: "comida" },
+    { nombre: "Enchiladas", precio: 4000, categoria: "comida" },
+    { nombre: "Empanada de Pino", precio: 2500, categoria: "empanadas" },
+    { nombre: "Bebida Lata 350cc", precio: 1500, categoria: "bebidas" }
 ];
-
+function renderizarSelectProductos(filtroCategoria = "todas") {
+    const select = document.getElementById('producto-select');
+    // Limpiamos las opciones actuales
+    select.innerHTML = '<option value="" selected disabled>Seleccione un producto...</option>';
+    
+    productosLista.forEach(p => {
+        if (filtroCategoria === "todas" || p.categoria === filtroCategoria) {
+            const option = document.createElement('option');
+            option.value = p.nombre;
+            option.setAttribute('data-precio', p.precio);
+            option.textContent = `${p.nombre} - $${p.precio.toLocaleString('es-CL')}`;
+            select.appendChild(option);
+        }
+    });
+}
 document.addEventListener('DOMContentLoaded', () => {
+    renderizarSelectProductos();
+
+    // LÓGICA DE BOTONES DE CATEGORÍA
+    const botonesCategoria = document.querySelectorAll('#contenedor-categorias .filter-btn');
+    botonesCategoria.forEach(boton => {
+        boton.addEventListener('click', (e) => {
+            // 1. Quitar el estado activo (color sólido) de todos los botones
+            botonesCategoria.forEach(b => {
+                b.classList.remove('btn-primary', 'active');
+                b.classList.add('btn-outline-primary');
+            });
+            
+            // 2. Poner el estado activo al botón que se clickeó
+            const btnSeleccionado = e.target;
+            btnSeleccionado.classList.remove('btn-outline-primary');
+            btnSeleccionado.classList.add('btn-primary', 'active');
+
+            // 3. Filtrar los productos en el Select
+            const categoria = btnSeleccionado.getAttribute('data-categoria');
+            renderizarSelectProductos(categoria);
+        });
+    });
     // 1. Configuración del Menú Lateral (Hamburger)
     const hamburger = document.getElementById('hamburger');
     const sideMenu = document.getElementById('sideMenu');

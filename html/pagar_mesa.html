@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="../css/pagar_mesa.css">
     <script src="../js/pagar_mesa.js"></script>
     <link rel="stylesheet" href="../css/menu.css">
-
+<link rel="icon" type="image/x-icon" href="../img/R-removebg-preview.png">
 </head>
 
 <body>
@@ -24,15 +24,13 @@
         </div>
     </header>
 
-    <aside class="side-menu shadow" id="sideMenu">
+     <aside class="side-menu shadow" id="sideMenu">
         <h2 class="h5 mb-4 text-primary fw-bold px-3 pt-3">Secciones</h2>
         <nav class="nav flex-column px-2">
-            <a class="nav-link py-2 rounded mb-1" href="Index.html">🏠 Inicio</a>
+            <a class="nav-link py-2 rounded mb-1 fw-bold bg-primary text-white" href="Index.html">🏠 Inicio</a>
             <a class="nav-link py-2 rounded mb-1" href="venta_Rapida.html">👨‍🍳 Venta Rápida</a>
             
-            <a class="nav-link py-2 rounded mb-2 fw-bold bg-primary text-white" href="cierre_caja.html">
-                <i class="bi bi-box-arrow-right me-2"></i>Cierre de Caja
-            </a>
+            
             
             <hr class="text-muted my-1">
 
@@ -42,7 +40,7 @@
                     <span class="arrow">▸</span>
                 </button>
                 <div class="submenu-accordion" id="submenu-reportes">
-                    <a class="nav-link py-1" href="reporte_general.html">Reporte general</a>
+                    <a class="nav-link py-1" href="reporte_general.html">Reporte general</a> 
                     <a class="nav-link py-1" href="total_ventas.html">Total de ventas</a>
                     <a class="nav-link py-1" href="venta_producto.html">Venta por producto</a>
                     <a class="nav-link py-1" href="venta_usuario.html">Venta por usuario</a>
@@ -51,13 +49,17 @@
                 </div>
             </div>
             <hr class="text-muted my-1">
-
             <h6 class="text-muted fw-bold px-3 mt-3 mb-2 small text-uppercase">Administración</h6>
+                <a class="nav-link py-2 rounded mb-1 " href="admin_mesas.html">
+                    🪑 Gestión de Mesas
             <a class="nav-link py-2 rounded mb-1 " href="admin_productos.html">
-                <i class="bi bi-card-list me-2"></i>Gestión de Carta
+                🍽️ Gestión de Carta
             </a>
             <a class="nav-link py-2 rounded mb-1 " href="admin_usuarios.html">
-                <i class="bi bi-people-fill me-2"></i>Usuarios / Personal
+                👨‍💼 Usuarios / Personal
+            </a>
+            <a class="nav-link py-2 rounded mb-2 " href="cierre_caja.html">
+                💰 Cierre de Caja
             </a>
         </nav>
     </aside>
@@ -92,33 +94,28 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="d-flex justify-content-between">
-                            <span>Subtotal:</span>
+                        <div class="d-flex justify-content-between mb-1">
+                            <span>Subtotal Consumo:</span>
                             <span>$<span id="subtotal">150000</span></span>
                         </div>
 
-                        <div class="d-flex justify-content-between text-muted small">
-                            <span>IVA (19%):</span>
-                            <span>$<span id="tax">28500</span></span>
-                        </div>
-
-                        <div class="d-flex justify-content-between">
-                            <span>Propina Sugerida:</span>
+                        <div class="d-flex justify-content-between text-muted mb-2">
+                            <span>Propina:</span>
                             <span>$<span id="tipDisplay">0</span></span>
                         </div>
 
                         <hr class="my-1">
 
-                        <div class="d-flex justify-content-between fw-bold text-primary">
+                        <div class="d-flex justify-content-between fw-bold text-primary fs-5 mt-2">
                             <span>Total a pagar:</span>
-                            <span>$<span id="totalAmount">178500</span></span>
+                            <span>$<span id="totalAmount">150000</span></span>
                         </div>
                     </div>
                 </div>
 
                 <div class="section-title text-primary"><i class="fas fa-credit-card"></i> Método de Pago</div>
                 <div class="payment-methods">
-                    <div class="payment-method " onclick="selectPayment(this, 'efectivo')">
+                    <div class="payment-method active" onclick="selectPayment(this, 'efectivo')">
                         <i class="fas fa-money-bill"></i> Efectivo
                     </div>
                     <div class="payment-method" onclick="selectPayment(this, 'debito')">
@@ -131,19 +128,23 @@
                         <i class="fas fa-exchange-alt"></i> Transferencia
                     </div>
                 </div>
-                <div class="section-title text-primary"><i class="fas fa-gift"></i> Propina</div>
-                <div class="input-group mb-3">
+
+                <div class="section-title text-primary"><i class="fas fa-gift"></i> Propina (Garzón: <span id="nombreGarzonPropina">Juan García</span>)</div>
+                <div class="input-group mb-2">
                     <span class="input-group-text bg-light">$</span>
-                    <input type="number" id="tipAmount" class="form-control" placeholder="Monto manual" min="0" step="1"
-                        value="0">
+                    <input type="number" id="tipAmount" class="form-control" placeholder="Monto manual" min="0" step="1" value="0">
                     <button type="button" class="btn btn-outline-primary" onclick="setTip(10)">10%</button>
                     <button type="button" class="btn btn-outline-primary" onclick="setTip(15)">15%</button>
                     <button type="button" class="btn btn-outline-primary" onclick="setTip(20)">20%</button>
+                    <button type="button" class="btn btn-primary fw-bold px-3" onclick="addTip()">Agregar</button>
                 </div>
+                <div id="tipFeedback" class="alert alert-success py-1 px-2 d-none mb-3 small">
+                    <i class="fas fa-check-circle"></i> Propina de $<span id="tipConfirmAmount">0</span> asignada a <span id="tipConfirmWaiter"></span>.
+                </div>
+
                 <div class="input-group mb-3">
                     <span class="input-group-text bg-light"><i class="fas fa-dollar-sign"></i></span>
-                    <input type="number" id="paymentAmount" class="form-control" placeholder="Monto a pagar" min="0"
-                        step="1">
+                    <input type="number" id="paymentAmount" class="form-control" placeholder="Ingrese el monto recibido" min="0" step="1">
                     <button class="btn btn-primary px-4" onclick="addPayment()">Agregar Pago</button>
                 </div>
 
@@ -155,26 +156,22 @@
                         </div>
                     </div>
                     <div class="col-md-5">
-                        <div class="balance-box h-100 d-flex flex-column justify-content-center bg-light border-start border-primary border-4"
-                            id="balanceBox">
+                        <div class="balance-box h-100 d-flex flex-column justify-content-center bg-light border-start border-primary border-4" id="balanceBox">
                             <div class="d-flex justify-content-between mb-1">
-                                <span>Abonado:</span>
-                                <strong class="text-primary">$<span id="totalPaid">0.00</span></strong>
+                                <span>Pagado:</span>
+                                <strong class="text-primary">$<span id="totalPaid">0</span></strong>
                             </div>
                             <div class="d-flex justify-content-between fs-5">
-                                <span>Resta:</span>
-                                <strong class="text-primary">$<span id="balance">169.50</span></strong>
+                                <span id="balanceLabel">Falta:</span>
+                                <strong class="text-primary">$<span id="balance">0</span></strong>
                             </div>
                         </div>
                     </div>
                 </div>
 
-
-
                 <div class="row g-2 mt-2">
                     <div class="col-8">
-                        <button class="btn btn-primary btn-custom w-100 py-2" id="liberarBtn" onclick="liberarMesa()"
-                            disabled>
+                        <button class="btn btn-primary btn-custom w-100 py-2" id="liberarBtn" onclick="liberarMesa()" disabled>
                             <i class="fas fa-check-circle"></i> Confirmar y Liberar Mesa
                         </button>
                     </div>
